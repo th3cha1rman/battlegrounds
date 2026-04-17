@@ -22,7 +22,6 @@ Created on Jul 14, 2018
 
 
 import codecs
-import sys
 from base64 import b64decode, b64encode
 
 
@@ -31,7 +30,7 @@ def encode(s, name="utf-8", *args, **kwargs):
         if isinstance(s, str):
             try:
                 s = bytearray(s, "utf-8")
-            except:
+            except Exception:
                 pass
         return b64encode(s).decode("utf-8").strip()
     if isinstance(s, (bytes, bytearray)):
@@ -48,7 +47,7 @@ def decode(s, name="utf-8", *args, **kwargs):
     if name == "base64":
         try:
             return bytearray(b64decode(s)).decode("utf-8")
-        except:
+        except Exception:
             pass
     if isinstance(s, str):
         # requires bytes, already decoded?
@@ -70,7 +69,7 @@ def unicode(s, name="utf-8", *args, **kwargs):
 def set_type(value, basevalue):
     # try to set value to basevalue type
     basetype = type(basevalue)
-    if type(value) == basetype:
+    if isinstance(value, basetype):
         return value
     elif isinstance(basevalue, bool):
         if str(value).upper() == "TRUE":
@@ -79,10 +78,41 @@ def set_type(value, basevalue):
             return False
     elif isinstance(basevalue, int):
         return int(value)
-    elif type(unicode(value)) == basetype:
+    elif isinstance(unicode(value), basetype):
         return unicode(value)
-    elif type(str(value)) == basetype:
+    elif isinstance(str(value), basetype):
         return str(value)
-    elif type(bytes(value)) == basetype:
+    elif isinstance(bytes(value), basetype):
         return bytes(value)
     return value
+"""
+Need to test this function more, but it should attempt to convert value to the type of basevalue. If it fails, 
+it will return the original value.
+
+def set_type(value, basevalue):
+    Convert value to match the type of basevalue.
+    basetype = type(basevalue)
+    
+    # Already correct type
+    if isinstance(value, basetype):
+        return value
+    
+    # Handle bool separately (bool is a subclass of int)
+    if basetype is bool:
+        return str(value).upper() == "TRUE"
+    
+    # Handle numeric and string conversions
+    if basetype in (int, float, complex):
+        try:
+            return basetype(value)
+        except (ValueError, TypeError):
+            return value
+    
+    if basetype in (str, unicode, bytes):
+        try:
+            return basetype(value)
+        except (ValueError, TypeError, UnicodeEncodeError, UnicodeDecodeError):
+            return value
+    
+    return value
+    """

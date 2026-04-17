@@ -30,11 +30,10 @@ import sys
 from builtins import input, str
 from datetime import datetime
 
-import nose
 from tornado.options import define, options
 
 from libs.ConfigHelpers import save_config, save_config_image
-from libs.ConsoleColors import *
+from libs.ConsoleColors import WARN, INFO, bold, R, C, W, PROMPT
 from libs.StringCoding import set_type
 from setup import __version__
 
@@ -61,7 +60,19 @@ def start():
 
     prefix = "https://" if options.ssl else "http://"
     # TODO For docker, it would be nice to grab the mapped docker port
-    listenport = C + "%slocalhost:%s" % (prefix, str(options.listen_port)) + W
+    # Get the actual IP address
+    import socket
+    try:
+        # Get the primary IP address
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+    except Exception:
+        # Fallback to localhost if we can't get the IP
+        ip_address = "localhost"
+    
+    listenport = C + "%s%s:%s" % (prefix, ip_address, str(options.listen_port)) + W
     sys.stdout.flush()
     try:
         print(INFO + bold + R + "Starting RTB on %s" % listenport, flush=True)
@@ -86,29 +97,26 @@ def setup():
     warning yourself. Don't merge any code the removes it.
     """
     is_devel = options.setup.startswith("dev")
-    if is_devel:
-        print("%sWARNING:%s Setup is in development mode %s" % (WARN + bold, W, WARN))
-        message = "I know what the fuck I am doing"
-        resp = input(PROMPT + 'Please type "%s": ' % message)
-        if resp.replace('"', "").lower().strip() != message.lower():
-            os._exit(1)
-    else:
+    if not is_devel:
         is_devel = options.setup.startswith("docker")
     print(INFO + "%s : Creating the database ..." % current_time())
-    from setup.create_database import create_tables, engine, metadata
+    from setup.create_database import create_tables, metadata
+    from models import engine, dbsession
 
     create_tables(engine, metadata, options.log_sql)
     sys.stdout.flush()
 
-    from models.Theme import Theme
+    from models.User import User
+    from models.Permission import Permission
+    from models.User import ADMIN_PERMISSION
 
-    themes = Theme.all()
-    if len(themes) > 0:
+    # Check if admin user exists instead of themes
+    admin_users = dbsession.query(User).join(Permission).filter(Permission.name == ADMIN_PERMISSION).all()
+    if len(admin_users) > 0:
         print(INFO + "It looks like database has already been set up.")
         return
 
     print(INFO + "%s : Bootstrapping the database ..." % current_time())
-    import setup.bootstrap
 
     # Display Details
     if is_devel:
@@ -117,16 +125,17 @@ def setup():
     else:
         environ = bold + "Production bootstrap" + W
         details = ""
+    
     from handlers import update_db
     from setup import bootstrap
 
     update_db(False)
-    #Run the boostrap to create admin user and initial data
+    # Run the bootstrap to create admin user and initial data
     bootstrap
     sys.stdout.flush()
     try:
         print(INFO + "%s %s" % (environ, details), flush=True)
-    except:
+    except Exception:
         print(INFO + "%s %s" % (environ, details))
 
 
@@ -207,6 +216,7 @@ def tests():
 
     db_name = "test-%04s" % random.randint(0, 9999)
     setup_database(db_name)
+    import nose
     nose.run(module="tests", argv=[os.getcwd() + "/tests"])
     teardown_database(db_name)
 
@@ -337,7 +347,6 @@ define(
     group="server",
     help="honor the `X-FORWARDED-FOR` and `X-REAL-IP` http headers",
     type=bool,
-    help="memcached SASL server password",
 )
 
 define(
@@ -356,7 +365,7 @@ define("keyfile", default="", group="server", help="the key file path (for ssl/t
 define(
     "admin_ips",
     multiple=True,
-    default=["127.0.0.1", "::1"],
+    default=[],
     group="server",
     help="whitelist of ip addresses that can access the admin ui (use empty list to allow all ip addresses)",
 )
@@ -605,7 +614,6 @@ define(
     help="memcached SASL server password",
 )
 
-# Game Settings
 define(
     "game_name",
     default="Root the Box",

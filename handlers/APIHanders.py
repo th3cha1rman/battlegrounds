@@ -22,10 +22,7 @@ Created on Mar 13, 2012
 This file contains handlers related to the file sharing functionality
 
 """
-
-
 import json
-import logging
 
 from libs.SecurityDecorators import apikey, restrict_ip_address
 

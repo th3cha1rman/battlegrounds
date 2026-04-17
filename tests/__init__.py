@@ -24,7 +24,6 @@ Setup / delete the unit test database
 """
 
 
-import logging
 import os
 
 from tornado.options import options
@@ -40,9 +39,9 @@ def setup_database(db_name):
     # Create the default tables
     logging.debug("Creating tables ... ")
     from setup.create_database import create_tables, engine, metadata
-
+    
     create_tables(engine, metadata, False)
-    import setup.bootstrap
+    import setup.bootstrap # noqa: F401
 
 
 def teardown_database(db_name):

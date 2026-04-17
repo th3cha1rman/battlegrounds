@@ -28,7 +28,7 @@ import os
 import sys
 from builtins import object
 
-from libs.ConsoleColors import *
+from libs.ConsoleColors import WARN, bold, R, W, PROMPT
 
 try:
     from urllib.parse import quote, quote_plus

@@ -29,7 +29,7 @@ from builtins import input, str
 
 from tornado.options import options
 
-from libs.ConsoleColors import *
+from libs.ConsoleColors import WARN, PROMPT
 from models import dbsession
 from models.GameLevel import GameLevel
 from models.MarketItem import MarketItem
@@ -68,7 +68,20 @@ else:
 
 # Theme objects
 css_files = [
-    ("Cyberpunk", ["cyberpunk.css"]),
+    ("Bootstrap", ["bootstrap.min.css"]),
+    ("Amelia", ["amelia.min.css"]),
+    ("Cyborg", ["cyborg.min.css"]),
+    ("Readable", ["readable.min.css"]),
+    ("Slate", ["slate.min.css"]),
+    ("Spruce", ["spruce.min.css"]),
+    ("United", ["united.min.css"]),
+    ("Cerulean", ["cerulean.min.css"]),
+    ("Journal", ["journal.min.css"]),
+    ("Simplex", ["simplex.min.css"]),
+    ("Spacelab", ["spacelab.min.css"]),
+    ("Superhero", ["superhero.min.css"]),
+    ("Geocities", ["geocities.min.css"]),
+    ("386", ["386.css", "386.js", "386.responsive.css"]),
 ]
 for css in css_files:
     theme = Theme(name=css[0])

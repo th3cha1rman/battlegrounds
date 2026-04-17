@@ -32,8 +32,8 @@ Ready to test your skills? Join an active H3XSEC competition at **[battleground.
 Check out the **[H3XSEC Battleground Documentation](https://github.com/yourusername/H3XSEC-Battleground/wiki)** for installation guides, configuration options, and competition setup tutorials.
 
 ### System Requirements
-- Python 3.8+ or PyPy
-- Ubuntu 20.04+ / Debian 11+ (recommended) — also runs on BSD, macOS, and Windows
+- Python 3.13+ or PyPy
+- Ubuntu 22.04+ / Debian 12+ (recommended) — also runs on BSD, macOS, and Windows
 - Docker support available for containerized deployments
 
 ## ❓ Support & Community

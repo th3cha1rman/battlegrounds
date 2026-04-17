@@ -220,7 +220,7 @@ class BotCliMonitorSocketHandler(tornado.websocket.WebSocketHandler):
         """Authenticate user"""
         try:
             user = User.by_handle(req["handle"])
-        except:
+        except Exception:
             user = None
         if user is None or user.is_admin():
             logging.debug("Monitor socket user does not exist.")

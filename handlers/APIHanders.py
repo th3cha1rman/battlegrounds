@@ -43,3 +43,30 @@ class APIActionHandler(BaseHandler):
 
     def check_xsrf_cookie(self):
         pass
+    
+class UserStatsHandler(BaseHandler):
+    """Returns total users and users online"""
+    
+    def get(self):
+        from models import dbsession
+        from models.User import User
+        
+        # Get total users
+        total_users = dbsession.query(User).count()
+        
+        # Get online users (active connections)
+        users_online = 0
+        try:
+            stats = self.memcached.stats().get("127.0.0.1")
+            if stats:
+                users_online = int(stats.get("curr_connections", 0))
+            else:
+                users_online = total_users
+        except:
+            users_online = total_users
+        
+        self.write({
+            'total_users': total_users,
+            'users_online': users_online
+        })
+        self.set_header('Content-Type', 'application/json')

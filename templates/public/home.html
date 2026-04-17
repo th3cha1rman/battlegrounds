@@ -6,10 +6,102 @@
 {% end %}
 
 {% block content %}
-    <div id="home_container" style="margin-right: auto; margin-left: auto; min-width: 940px; display: table; padding: 30px;">
-        <div class="well" style="position: relative; display: table-row; min-width: 850px; min-height: 600px;">
-            <img src="{{options.ctf_logo}}" style="margin-left: auto; margin-right: auto; display: block;">
-            <h2 style="position: absolute; top: 0; margin-top: 15px; margin-left: 25px;  text-shadow: 2px 2px .3px black;">{{options.ctf_tagline}}</h2>
+<div class="map-background"></div>
+
+<div style="position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;">
+    <div style="background: rgba(10, 15, 25, 0.75); backdrop-filter: blur(8px); border: 1px solid rgba(69, 198, 219, 0.4); border-radius: 12px; padding: 35px 50px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(69, 198, 219, 0.15);">
+        <h1 style="color: #B6DADD; font-size: 42px; font-weight: 400; letter-spacing: 8px; margin: 0 0 5px; text-shadow: 0 0 20px #45c6db; text-transform: uppercase;">H3XSEC</h1>
+        <h2 style="color: #7B848E; font-size: 18px; font-weight: 300; letter-spacing: 10px; margin: 0 0 20px; text-transform: uppercase; border-bottom: 1px solid rgba(69, 198, 219, 0.3); padding-bottom: 12px;">Battlegrounds</h2>
+        
+        <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 20px;">
+            <div style="text-align: center;">
+                <div style="color: #45c6db; font-size: 28px; font-weight: bold;" id="total-users">-</div>
+                <div style="color: #8dbfca; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">Total Users</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="color: #45c6db; font-size: 28px; font-weight: bold;" id="online-users">-</div>
+                <div style="color: #8dbfca; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">Online Now</div>
+            </div>
+        </div>
+        
+        <div style="border-top: 1px solid rgba(69, 198, 219, 0.2); padding-top: 15px; margin-top: 5px;">
+            <div style="color: #7B848E; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;">Next Operation In</div>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <div style="text-align: center;">
+                    <div style="color: #B6DADD; font-size: 24px; font-weight: bold;" id="days">30</div>
+                    <div style="color: #698daa; font-size: 10px; text-transform: uppercase;">Days</div>
+                </div>
+                <div style="color: #45c6db; font-size: 24px;">:</div>
+                <div style="text-align: center;">
+                    <div style="color: #B6DADD; font-size: 24px; font-weight: bold;" id="hours">00</div>
+                    <div style="color: #698daa; font-size: 10px; text-transform: uppercase;">Hours</div>
+                </div>
+                <div style="color: #45c6db; font-size: 24px;">:</div>
+                <div style="text-align: center;">
+                    <div style="color: #B6DADD; font-size: 24px; font-weight: bold;" id="minutes">00</div>
+                    <div style="color: #698daa; font-size: 10px; text-transform: uppercase;">Mins</div>
+                </div>
+                <div style="color: #45c6db; font-size: 24px;">:</div>
+                <div style="text-align: center;">
+                    <div style="color: #B6DADD; font-size: 24px; font-weight: bold;" id="seconds">00</div>
+                    <div style="color: #698daa; font-size: 10px; text-transform: uppercase;">Secs</div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<script>
+// Fetch user stats from your API
+async function fetchUserStats() {
+    try {
+        const response = await fetch('/api/user_stats');
+        const data = await response.json();
+        document.getElementById('total-users').textContent = data.total_users.toLocaleString();
+        document.getElementById('online-users').textContent = data.users_online;
+    } catch (error) {
+        console.error('Failed to fetch user stats:', error);
+        document.getElementById('total-users').textContent = '---';
+        document.getElementById('online-users').textContent = '--';
+    }
+}
+
+// Set a fixed target date that won't change on refresh
+// This example sets it to May 17, 2026 at midnight UTC
+// Change this date to whenever you want the countdown to end
+const targetDate = new Date(Date.UTC(2026, 4, 17, 0, 0, 0)); // Month is 0-indexed: 4 = May
+
+function updateCountdown() {
+    const now = new Date();
+    const diff = targetDate - now;
+    
+    if (diff <= 0) {
+        // Countdown finished
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+}
+
+// Initial load
+fetchUserStats();
+updateCountdown();
+
+// Refresh user stats every 30 seconds
+setInterval(fetchUserStats, 30000);
+// Update countdown every second
+setInterval(updateCountdown, 1000);
+</script>
 {% end %}

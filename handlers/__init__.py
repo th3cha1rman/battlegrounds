@@ -117,6 +117,7 @@ urls = [
     (r"/user/missions/firstlogin", FirstLoginHandler),
     (r"/user/missions/boxes", BoxHandler),
     (r"/user/missions/hint", PurchaseHintHandler),
+    (r"/api/user_stats", UserStatsHandler),
     ### BOTNET URLS ###
     # Bot Handlers - BotHandlers.py
     (r"/botnet/connect", BotSocketHandler),

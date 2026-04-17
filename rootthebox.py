@@ -30,11 +30,10 @@ import sys
 from builtins import input, str
 from datetime import datetime
 
-import nose
 from tornado.options import define, options
 
 from libs.ConfigHelpers import save_config, save_config_image
-from libs.ConsoleColors import *
+from libs.ConsoleColors import WARN, INFO, bold, R, C, W, PROMPT
 from libs.StringCoding import set_type
 from setup import __version__
 
@@ -61,7 +60,19 @@ def start():
 
     prefix = "https://" if options.ssl else "http://"
     # TODO For docker, it would be nice to grab the mapped docker port
-    listenport = C + "%slocalhost:%s" % (prefix, str(options.listen_port)) + W
+    # Get the actual IP address
+    import socket
+    try:
+        # Get the primary IP address
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+    except Exception:
+        # Fallback to localhost if we can't get the IP
+        ip_address = "localhost"
+    
+    listenport = C + "%s%s:%s" % (prefix, ip_address, str(options.listen_port)) + W
     sys.stdout.flush()
     try:
         print(INFO + bold + R + "Starting RTB on %s" % listenport, flush=True)
@@ -86,29 +97,26 @@ def setup():
     warning yourself. Don't merge any code the removes it.
     """
     is_devel = options.setup.startswith("dev")
-    if is_devel:
-        print("%sWARNING:%s Setup is in development mode %s" % (WARN + bold, W, WARN))
-        message = "I know what the fuck I am doing"
-        resp = input(PROMPT + 'Please type "%s": ' % message)
-        if resp.replace('"', "").lower().strip() != message.lower():
-            os._exit(1)
-    else:
+    if not is_devel:
         is_devel = options.setup.startswith("docker")
     print(INFO + "%s : Creating the database ..." % current_time())
-    from setup.create_database import create_tables, engine, metadata
+    from setup.create_database import create_tables, metadata
+    from models import engine, dbsession
 
     create_tables(engine, metadata, options.log_sql)
     sys.stdout.flush()
 
-    from models.Theme import Theme
+    from models.User import User
+    from models.Permission import Permission
+    from models.User import ADMIN_PERMISSION
 
-    themes = Theme.all()
-    if len(themes) > 0:
+    # Check if admin user exists instead of themes
+    admin_users = dbsession.query(User).join(Permission).filter(Permission.name == ADMIN_PERMISSION).all()
+    if len(admin_users) > 0:
         print(INFO + "It looks like database has already been set up.")
         return
 
     print(INFO + "%s : Bootstrapping the database ..." % current_time())
-    import setup.bootstrap
 
     # Display Details
     if is_devel:
@@ -117,13 +125,17 @@ def setup():
     else:
         environ = bold + "Production bootstrap" + W
         details = ""
+    
     from handlers import update_db
+    from setup import bootstrap
 
     update_db(False)
+    # Run the bootstrap to create admin user and initial data
+    bootstrap
     sys.stdout.flush()
     try:
         print(INFO + "%s %s" % (environ, details), flush=True)
-    except:
+    except Exception:
         print(INFO + "%s %s" % (environ, details))
 
 
@@ -204,6 +216,7 @@ def tests():
 
     db_name = "test-%04s" % random.randint(0, 9999)
     setup_database(db_name)
+    import nose
     nose.run(module="tests", argv=[os.getcwd() + "/tests"])
     teardown_database(db_name)
 
@@ -330,7 +343,7 @@ define(
 
 define(
     "x_headers",
-    default=False,
+    default=True,
     group="server",
     help="honor the `X-FORWARDED-FOR` and `X-REAL-IP` http headers",
     type=bool,
@@ -352,7 +365,7 @@ define("keyfile", default="", group="server", help="the key file path (for ssl/t
 define(
     "admin_ips",
     multiple=True,
-    default=["127.0.0.1", "::1"],
+    default=[],
     group="server",
     help="whitelist of ip addresses that can access the admin ui (use empty list to allow all ip addresses)",
 )
@@ -601,21 +614,12 @@ define(
     help="memcached SASL server password",
 )
 
-
-# Game Settings
-try:
-    # python2
-    game_type = basestring
-except NameError:
-    # python 3
-    game_type = str
-
 define(
     "game_name",
     default="Root the Box",
     group="game",
     help="the name of the current game",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -623,7 +627,7 @@ define(
     default="1.0",
     group="game",
     help="optional version for this game",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -631,7 +635,7 @@ define(
     default="/static/images/rtb2.png",
     group="game",
     help="the image displayed on the welcome page",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -639,7 +643,7 @@ define(
     default="A Game of Hackers",
     group="game",
     help="the tagline displayed on the welcome page",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -647,7 +651,7 @@ define(
     default="",
     group="game",
     help="Organization footer - righthand text / html",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -655,7 +659,7 @@ define(
     default="",
     group="game",
     help="Link to the privacy policy",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -663,7 +667,7 @@ define(
     default="/static/images/morris.jpg",
     group="game",
     help="the character image displayed on the communication dialog",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -672,7 +676,7 @@ define(
     default=[" ", "Good hunting,\n    -Morris"],
     group="game",
     help="the ending at the end of the communication dialog",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -689,7 +693,7 @@ define(
     ],
     group="game",
     help="the dialog displayed at first login",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -702,7 +706,7 @@ define(
     ],
     group="game",
     help="additional dialog displayed at first login if banking is enabled",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -711,7 +715,7 @@ define(
     default=[" ", "I will also be glad to rent your botnet for $$reward per bot."],
     group="game",
     help="additional dialog displayed at first login if bots are enabled",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -761,7 +765,7 @@ define(
     default="",
     group="game",
     help="display image to right of scoreboard (can fade with show_mvp)",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -929,7 +933,7 @@ define(
     default="public",
     group="game",
     help="Visibility of the Scoreboard - public, players, admins",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1063,7 +1067,7 @@ define(
     default="",
     group="chat",
     help="slack/discord/rocket/... chat url for menu",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1071,7 +1075,7 @@ define(
     default="",
     group="chat",
     help="admin username for rocket chat",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1079,7 +1083,7 @@ define(
     default="",
     group="chat",
     help="admin password for rocket chat",
-    type=game_type,
+    type=str,
 )
 
 # Auto-setup modes

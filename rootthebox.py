@@ -118,8 +118,11 @@ def setup():
         environ = bold + "Production bootstrap" + W
         details = ""
     from handlers import update_db
+    from setup import bootstrap
 
     update_db(False)
+    #Run the boostrap to create admin user and initial data
+    bootstrap
     sys.stdout.flush()
     try:
         print(INFO + "%s %s" % (environ, details), flush=True)
@@ -330,10 +333,11 @@ define(
 
 define(
     "x_headers",
-    default=False,
+    default=True,
     group="server",
     help="honor the `X-FORWARDED-FOR` and `X-REAL-IP` http headers",
     type=bool,
+    help="memcached SASL server password",
 )
 
 define(
@@ -601,21 +605,13 @@ define(
     help="memcached SASL server password",
 )
 
-
 # Game Settings
-try:
-    # python2
-    game_type = basestring
-except NameError:
-    # python 3
-    game_type = str
-
 define(
     "game_name",
     default="Root the Box",
     group="game",
     help="the name of the current game",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -623,7 +619,7 @@ define(
     default="1.0",
     group="game",
     help="optional version for this game",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -631,7 +627,7 @@ define(
     default="/static/images/rtb2.png",
     group="game",
     help="the image displayed on the welcome page",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -639,7 +635,7 @@ define(
     default="A Game of Hackers",
     group="game",
     help="the tagline displayed on the welcome page",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -647,7 +643,7 @@ define(
     default="",
     group="game",
     help="Organization footer - righthand text / html",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -655,7 +651,7 @@ define(
     default="",
     group="game",
     help="Link to the privacy policy",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -663,7 +659,7 @@ define(
     default="/static/images/morris.jpg",
     group="game",
     help="the character image displayed on the communication dialog",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -672,7 +668,7 @@ define(
     default=[" ", "Good hunting,\n    -Morris"],
     group="game",
     help="the ending at the end of the communication dialog",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -689,7 +685,7 @@ define(
     ],
     group="game",
     help="the dialog displayed at first login",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -702,7 +698,7 @@ define(
     ],
     group="game",
     help="additional dialog displayed at first login if banking is enabled",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -711,7 +707,7 @@ define(
     default=[" ", "I will also be glad to rent your botnet for $$reward per bot."],
     group="game",
     help="additional dialog displayed at first login if bots are enabled",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -761,7 +757,7 @@ define(
     default="",
     group="game",
     help="display image to right of scoreboard (can fade with show_mvp)",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -929,7 +925,7 @@ define(
     default="public",
     group="game",
     help="Visibility of the Scoreboard - public, players, admins",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1063,7 +1059,7 @@ define(
     default="",
     group="chat",
     help="slack/discord/rocket/... chat url for menu",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1071,7 +1067,7 @@ define(
     default="",
     group="chat",
     help="admin username for rocket chat",
-    type=game_type,
+    type=str,
 )
 
 define(
@@ -1079,7 +1075,7 @@ define(
     default="",
     group="chat",
     help="admin password for rocket chat",
-    type=game_type,
+    type=str,
 )
 
 # Auto-setup modes

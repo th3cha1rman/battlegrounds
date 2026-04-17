@@ -1,16 +1,29 @@
-.btncollapse {
-    float: right;
+/* Button Collapse Behavior */
+.btn-collapse {
+    /* In BS5, float is replaced by flex utility in parent, 
+       but if needed on the element itself: */
+    float: inline-end;
 }
-@media screen and (min-width: 980px) {
-    .btncollapse {display: none;}
+
+@media (min-width: 992px) { /* BS5 'lg' breakpoint replaces 980px */
+    .btn-collapse {
+        display: none !important;
+    }
 }
-.dropdown-alert-menu {
-    min-width: 375px !important;
-    margin-left: -214px !important;
+
+/* Alert Dropdown Menu Sizing */
+.dropdown-menu-alert {
+    min-width: 375px;
+    /* Negative margins removed: Bootstrap 5 handles alignment via 
+       data-bs-display="static" or dropdown-menu-end */
 }
-.navbar .nav>li>.dropdown-alert-menu:before{
-    left:220px !important;
+
+/* Arrow/Triangle Removal for Modern BS5 */
+/* BS5 dropdowns do not use :before/:after pseudo elements for arrows. 
+   If you still need an arrow for a custom popover effect, use this: */
+.dropdown-menu-alert::before {
+    /* If you MUST keep the arrow, redefine it completely */
+    display: none; /* Default BS5 has no arrow, so we hide old positioning */
 }
-.navbar .nav>li>.dropdown-alert-menu:after{
-    left:221px !important;
-}
+
+/* Legacy arrow overrides removed. Use BS5 Popovers or Tooltips for pointers. */

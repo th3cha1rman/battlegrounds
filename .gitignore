@@ -78,3 +78,7 @@ __pycache__
 
 # Readme
 !*README.md
+
+# Node
+node_modules/
+package-lock.json

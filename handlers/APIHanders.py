@@ -40,7 +40,8 @@ class APIActionHandler(BaseHandler):
 
     def check_xsrf_cookie(self):
         pass
-    
+
+'''
 class UserStatsHandler(BaseHandler):
     """Returns total users and users online"""
     
@@ -67,3 +68,4 @@ class UserStatsHandler(BaseHandler):
             'users_online': users_online
         })
         self.set_header('Content-Type', 'application/json')
+'''

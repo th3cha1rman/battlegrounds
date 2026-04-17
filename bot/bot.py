@@ -50,6 +50,7 @@ from urllib.parse import urlparse
 
 from builtins import chr, object, range
 from datetime import datetime
+from hashlib import sha512
 
 ### Settings
 __version__ = "0.1.1"

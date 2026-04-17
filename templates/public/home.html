@@ -5,7 +5,12 @@
     {{ options.game_name }}
 {% end %}
 
+
 {% block content %}
+
+<link href="/static/css/map.css" rel="stylesheet">
+<script src="/static/js/user-counter.js"></script>
+
 <div class="map-background"></div>
 
 <div style="position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;">
@@ -51,57 +56,4 @@
     </div>
 </div>
 
-<script>
-// Fetch user stats from your API
-async function fetchUserStats() {
-    try {
-        const response = await fetch('/api/user_stats');
-        const data = await response.json();
-        document.getElementById('total-users').textContent = data.total_users.toLocaleString();
-        document.getElementById('online-users').textContent = data.users_online;
-    } catch (error) {
-        console.error('Failed to fetch user stats:', error);
-        document.getElementById('total-users').textContent = '---';
-        document.getElementById('online-users').textContent = '--';
-    }
-}
-
-// Set a fixed target date that won't change on refresh
-// This example sets it to May 17, 2026 at midnight UTC
-// Change this date to whenever you want the countdown to end
-const targetDate = new Date(Date.UTC(2026, 4, 17, 0, 0, 0)); // Month is 0-indexed: 4 = May
-
-function updateCountdown() {
-    const now = new Date();
-    const diff = targetDate - now;
-    
-    if (diff <= 0) {
-        // Countdown finished
-        document.getElementById('days').textContent = '0';
-        document.getElementById('hours').textContent = '00';
-        document.getElementById('minutes').textContent = '00';
-        document.getElementById('seconds').textContent = '00';
-        return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    document.getElementById('days').textContent = days;
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-}
-
-// Initial load
-fetchUserStats();
-updateCountdown();
-
-// Refresh user stats every 30 seconds
-setInterval(fetchUserStats, 30000);
-// Update countdown every second
-setInterval(updateCountdown, 1000);
-</script>
 {% end %}

@@ -1,1 +1,32 @@
-Generic single-database configuration.
+# Alembic Database Migration Guide
+
+## What is Alembic?
+
+Alembic is a lightweight database migration tool for use with **SQLAlchemy** in Python applications. It helps you manage incremental changes to your database schema over time.
+
+Checkout this tutorial [Alembic](https://medium.com/@evembijo/beginners-guide-to-alembic-and-sqlalchemy-in-python-manage-your-database-like-a-pro-9395b5b5080d)
+### Why use Alembic?
+
+- **Version control for databases**: Track changes to your database schema just like you track code with Git
+- **Non-destructive updates**: Add, remove, or modify tables and columns without losing existing data
+- **Rollback capabilities**: Undo changes if something goes wrong
+- **Automated migrations**: Generate migration scripts by comparing your SQLAlchemy models to the actual database
+- **Team collaboration**: Share and apply database changes across development, staging, and production environments
+
+### Key Concepts
+
+- **Migration Script**: A Python file containing `upgrade()` and `downgrade()` functions
+- **Revision**: A unique identifier (usually a hash) for each migration
+- **Head**: The latest migration in the chain
+- **Base**: The starting point (empty database or initial state)
+
+## Common Alembic Commands
+
+### Initial Setup
+
+```bash
+# Initialize Alembic in your project
+alembic init alembic
+
+# Or use an existing directory structure
+alembic init -t generic .

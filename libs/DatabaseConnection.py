@@ -30,10 +30,7 @@ from builtins import object
 
 from libs.ConsoleColors import WARN, bold, R, W, PROMPT
 
-try:
-    from urllib.parse import quote, quote_plus
-except ImportError:
-    from urllib import quote, quote_plus
+from urllib.parse import quote, quote_plus
 from sqlalchemy import create_engine
 from tornado.options import options
 
@@ -78,7 +75,7 @@ class DatabaseConnection(object):
         """
         logging.debug("Configured to use Postgresql for a database")
         try:
-            import pypostgresql
+            import pypostgresql # noqa: F401
         except ImportError:
             print(WARN + "You must install 'pypostgresql'")
             os._exit(1)

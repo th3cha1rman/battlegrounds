@@ -17,8 +17,11 @@
 # #########################
 #     value
 # #########################
+
+
 current_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Check if the user is root
 if [[ "$EUID" != "0" ]]; then
   echo "[!] This script must be run as root." 1>&2
   exit 1
@@ -88,3 +91,4 @@ fi
 echo ""
 echo "[*] Base Setup Completed."
 echo "[*] Make sure to install the python dependencies."
+

@@ -1,28 +1,26 @@
 body {
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 40px;
 }
-
-/* Ensure container doesn't overlap footer */
-.container-fluid {
-    margin-bottom: 20px;
-}
-
 
 footer {
-    font-size: 85%;
+    font-size: 100%;
     position: fixed;
-    bottom: 0;
+    bottom: -35px;
     width: 100%;
-    z-index: 1000;
 }
 
+.footernav {
+    padding: 5px 20px;
+}
+
+/* Add glass footer styling without changing spacing */
 .glass-footer {
     background: rgba(18, 18, 42, 0.85) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid rgba(124, 58, 237, 0.3) !important;
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
-    padding: 12px 20px !important;
     transition: all 0.3s ease;
 }
 
@@ -45,32 +43,15 @@ footer {
 }
 
 .footer-brand i {
-    color: #4ade80;
+    color: #dd00ff;
     font-size: 20px;
-    text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+    text-shadow: 0 0 10px rgba(221, 0, 255, 0.5);
 }
 
 .footer-brand strong {
     color: #f0e6ff;
     font-size: 1em;
     letter-spacing: 0.5px;
-}
-
-.footer-brand small {
-    color: #a855f7;
-    font-size: 0.75em;
-    opacity: 0.9;
-    margin-left: 8px;
-}
-
-.footer-center {
-    color: #94a3b8;
-    font-size: 0.9em;
-}
-
-.footer-center i {
-    color: #4ade80;
-    margin: 0 4px;
 }
 
 .footer-links {
@@ -89,24 +70,9 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #4ade80;
-    background: rgba(74, 222, 128, 0.1);
-    text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
-}
-
-.footer-links i {
-    margin-right: 4px;
-}
-
-.footer-divider {
-    color: rgba(124, 58, 237, 0.4);
-    margin: 0 5px;
-}
-
-.org-footer-text {
-    color: #a855f7;
-    font-size: 0.9em;
-    padding: 0 5px;
+    color: #dd00ff;
+    background: rgba(221, 0, 255, 0.1);
+    text-shadow: 0 0 8px rgba(221, 0, 255, 0.3);
 }
 
 /* Mobile Responsive */
@@ -130,4 +96,94 @@ footer {
     body {
         padding-bottom: 0;
     }
+}
+
+/* Rest of your original CSS stays exactly the same */
+.img-polaroid {
+    width: 500px;
+}
+
+.shortcolumn {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.descriptioncol {
+    white-space: pre-wrap;
+    word-wrap: break-word; 
+    max-width: 350px;
+}
+
+.levelheader {
+    display: inline;
+    vertical-align: middle;
+}
+
+.statcolumn {
+    text-align: center !important;
+    vertical-align: middle  !important;
+    width: 100px;
+}
+
+.centercolumn {
+    text-align: center !important;
+    vertical-align: middle  !important;
+}
+
+.wordbreak {
+    word-wrap: break-word; 
+}
+
+.successtext {
+    font-size: 225%;
+    color: green;
+}
+
+.disabledtext {
+    font-size: 275%;
+}
+
+.avatarused {
+    color: white; 
+    font-size: 23pt; 
+    position: absolute; 
+    top: -11px; 
+    right: -5px;
+}
+
+.avatarused-top {
+    font-size: 16pt; 
+    position: absolute; 
+    top: -6px; 
+    right: -1px;
+}
+
+.preformatted {
+    font-family: monospace;
+    font-size: 95%;
+    white-space: pre-wrap;
+    display: block;
+    margin: 1em 0;
+}
+
+.markdown p {
+    display: inline;
+}
+
+.markdown ul {
+    margin-bottom: 0px;
+}
+
+code,
+pre {
+    background-color: #000 !important;
+    font-family: unset !important;
+    font-size: unset !important;
+    padding: 0px 6px 1px 5px !important;
+    white-space: pre-wrap !important;
+}
+
+code {
+    color: #f52323 !important;
+    border: 1px solid #979797 !important;
 }

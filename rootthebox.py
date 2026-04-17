@@ -242,7 +242,7 @@ def version():
 
     print(bold + "Root the Box%s v%s" % (W, __version__))
     print(bold + " SQL Alchemy%s v%s" % (W, orm_version))
-    print(bold + "     Torando%s v%s" % (W, tornado_version))
+    print(bold + "     Tornado%s v%s" % (W, tornado_version))
 
 
 def check_cwd():

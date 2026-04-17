@@ -31,7 +31,7 @@ from builtins import str
 from os import _exit, urandom
 from os import path as os_path
 
-import torando.locale #noqa: F401
+import tornado.locale #noqa: F401
 from sqlalchemy.exc import OperationalError
 from tornado import locale, netutil
 from tornado.httpserver import HTTPServer

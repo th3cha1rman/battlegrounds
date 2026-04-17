@@ -1,56 +1,45 @@
-# >\_ Root the Box
+# 🛡️ H3XSEC Battleground
 
-[![](https://img.shields.io/badge/license-Apache%202.0-blue.svg?raw=true&sanitize=true)](https://github.com/moloch--/RootTheBox/blob/master/LICENSE)
-[![Code style:
-black](https://img.shields.io/badge/code%20style-black-000000.svg?raw=true&sanitize=true)](https://github.com/ambv/black)
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/apsdehal/awesome-ctf)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-CTF%20Scoring%20Engine-8A2BE2)](https://h3xsec.com)
 
-Root the Box is a real-time capture the flag (CTF) scoring engine for computer wargames where hackers can practice and learn. The application can be easily configured and modified for any CTF style game. The platform allows you to engage novice and experienced players alike by combining a fun game-like environment with realistic challenges that convey knowledge applicable to the real-world, such as penetration testing, incident response, digital forensics and threat hunting.
+**H3XSEC Battleground** is a real-time competition platform powering H3XSEC's capture the flag (CTF) events and training exercises. Built for offensive and defensive security practitioners, the platform delivers an immersive wargaming experience that bridges the gap between gamified learning and real-world security operations.
 
-![example](static/images/example.png?raw=true)
+Whether you're running a public CTF competition, internal red/blue team exercise, or a structured training program, H3XSEC Battleground provides the scoring infrastructure to keep players engaged and the action moving.
 
-## Screenshots & Demo
-Additional platform [screenshots](https://github.com/moloch--/RootTheBox/wiki/Screenshots) and game examples.
+![H3XSEC Battleground Dashboard](static/images/example.png)
 
-[RootTheBox Demo](https://roottheboxdemo-ih63mtsgxa-uc.a.run.app/) – _Note it may take a few seconds to wake up. Also, please don't change passwords on the example accounts, but feel free to register a new user._
--   Admin Username `admin` Password `rootthebox`
--   Player Username `player` Password `rootthebox`
+## 🎮 Live Competition
 
-If you’re using RootTheBox, please ★Star this repository to show your interest!
+Ready to test your skills? Join an active H3XSEC competition at **[battleground.h3xsec.com](https://h3xsec.com)** and compete against security professionals from around the world.
 
-## Features
+## ⚡ Platform Capabilities
 
--   Team Play or Individual Play
--   Real-time animated scoreboard, graphs, and status updates using websockets
--   Flag Types: Static, Regex, Datetime, Multiple Choice, File - w/options for case sensitivity
--   Options for Penalties, Hints, Attempts, Level Bonuses, Dynamic Scoring, Categories and more
--   Built-in team based file/text sharing and Admin game material distribution
--   Integrated [CyberChef](https://gchq.github.io/CyberChef/) in tools menu
--   Chat support, with optional [Rocket Chat](https://rocket.chat/) integration
--   [CTF Time](https://ctftime.org/) compatible JSON scoreboard feed
--   Supports [OWASP Juice Shop CTF](https://github.com/bkimminich/juice-shop-ctf) export
--   Freeze scoreboard at a specific time allowing for end game countdown
--   Optional Story Mode - Supports intro dialog, capture Flag or Section dialog w/graphics
--   Optional [Advanced Features](https://github.com/moloch--/RootTheBox/wiki/Features), such as in-game botnets, "SWAT" players, banking (in-game) money, and wall of sheep displaying cracked passwords
--   Allows for unlocks and upgrades as users capture flags
--   Export and share Boxes/Flags
--   Multiple Language Support
--   Deploy in the [Cloud](https://github.com/moloch--/RootTheBox/wiki/Cloud-Deployment), with [Docker](https://github.com/moloch--/RootTheBox/wiki/Docker-Deployment), or [Direct](https://github.com/moloch--/RootTheBox/wiki/Installation).
--   Site Themes and other cool stuff
+- **Flexible Competition Formats** — Team-based warfare or solo hunting
+- **Live Scoreboard & Analytics** — Real-time WebSocket updates with animated rankings and performance graphs
+- **Diverse Flag System** — Static, regex, datetime, multiple choice, and file submission flags with granular validation rules
+- **Dynamic Scoring Engine** — Adjustable penalties, hints, attempt limits, level bonuses, and category weighting
+- **Built-in Collaboration** — Team file sharing and admin-controlled material distribution
+- **Integrated Tools** — CyberChef access for on-the-fly encoding/decoding and analysis
+- **CTFTime Integration** — Standards-compliant JSON scoreboard feed for official events
+- **Story Mode** — Optional narrative-driven experience with intro sequences and milestone-triggered content
+- **Advanced Game Mechanics** — Botnet simulations, player "SWAT" mechanics, in-game economy, and cracked password walls of shame
+- **Global Language Support** — Localized interface for international competitions
+- **Flexible Deployment** — Cloud-ready, Docker containerized, or bare metal installation
 
-## Setup
+## 🚀 Quick Start
 
-See the [Root the Box Wiki](https://github.com/moloch--/RootTheBox/wiki)
+Check out the **[H3XSEC Battleground Documentation](https://github.com/yourusername/H3XSEC-Battleground/wiki)** for installation guides, configuration options, and competition setup tutorials.
 
-## Platform Requirements
+### System Requirements
+- Python 3.8+ or PyPy
+- Ubuntu 20.04+ / Debian 11+ (recommended) — also runs on BSD, macOS, and Windows
+- Docker support available for containerized deployments
 
--   [Python 3](https://www.python.org/), [PyPy](http://pypy.org/) or [Docker](https://github.com/moloch--/RootTheBox/wiki/Docker-Deployment).
--   Install scripts are for [Ubuntu](http://www.ubuntu.com/) >= 18.04 (or [Debian](https://www.debian.org/)) but the application should work on any recent Linux, BSD, MacOS, or Windows system.
+## ❓ Support & Community
 
-## Questions? Problems? Feature Requests?
+Questions about running your own H3XSEC Battleground instance? Want to request a feature for an upcoming competition? **[Open an issue](https://github.com/yourusername/H3XSEC-Battleground/issues)** and we'll help you out.
 
-[Create an issue](https://github.com/moloch--/RootTheBox/issues) on GitHub if you have any questions, problems or feature requests. We're happy to help you out with setup/configuration/edits and we're always brainstorming new ideas and looking for cool stuff to add!
+## 📜 Attribution & License
 
-## Contributing
-
-We welcome code contributions, please [see our contributing guidelines](https://github.com/moloch--/RootTheBox/blob/master/CONTRIBUTING.md) on the wiki for more information.
+H3XSEC Battleground is built upon and extends the Root the Box CTF scoring engine, originally created by [moloch--](https://github.com/moloch--/RootTheBox) and contributors.

@@ -1,0 +1,56 @@
+{
+	"folders": [
+		{
+			"path": "../../Documents/GitHub/battlegrounds"
+		},
+		{
+			"path": "../.devcontainer"
+		},
+		{
+			"path": "../.git"
+		},
+		{
+			"path": "../.github"
+		},
+		{
+			"path": "../alembic"
+		},
+		{
+			"path": "../bot"
+		},
+		{
+			"path": "../cyberchef"
+		},
+		{
+			"path": "../files"
+		},
+		{
+			"path": "../handlers"
+		},
+		{
+			"path": "../libs"
+		},
+		{
+			"path": "../locale"
+		},
+		{
+			"path": "../models"
+		},
+		{
+			"path": "../modules"
+		},
+		{
+			"path": "../setup"
+		},
+		{
+			"path": "../static"
+		},
+		{
+			"path": "../templates"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

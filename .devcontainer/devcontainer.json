@@ -1,0 +1,26 @@
+{
+	"name": "Root the Box Dev",
+	"dockerComposeFile": ["../docker-compose.yml", "docker-compose.dev.yml"],
+	"service": "webapp",
+	"workspaceFolder": "/home/rtbdev/code",
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"redhat.vscode-xml",
+		"ms-python.debugpy"
+	],
+	"forwardPorts": [8888, 3306, 11211],
+	"settings": {
+		"terminal.integrated.cwd": "/home/rtbdev/code",
+		"python.defaultInterpreterPath": "/usr/local/bin/python3",
+		"files.exclude": {
+			"**/.devcontainer": true,
+			"**/.vscode": true,
+			"**/__pycache__": true,
+			"**/*.pyc": true
+		}
+	},
+	"postCreateCommand": "python3 /home/rtbdev/code/rootthebox.py --setup=dev --sql_dialect=mysql --sql_host=mysql --sql_user=rtb --sql_password=rootthebox --memcached=memcached",
+	"postStartCommand": "python3 /home/rtbdev/code/rootthebox.py --start --debug --autostart_game=True --autoreload_source=True &",
+	"remoteUser": "rtbdev"
+}

@@ -1,12 +1,11 @@
 .box {
-    padding: 0 1.875rem;
+      display: inline-block;
+      vertical-align: top;
+      padding: 0 30px;
 }
-
 .box .title {
-    font-size: 1.5rem;
-    font-family: var(--bs-font-serif);
+      font: 24px "Droid Serif", serif;
 }
-
 .box .list {
-    padding-left: 1.25rem;
+      list-style: square;
 }

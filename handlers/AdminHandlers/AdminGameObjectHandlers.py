@@ -33,7 +33,6 @@ import json
 import logging
 import re
 from builtins import str
-from tornado.escape import json_encode
 from tornado.options import options
 
 from handlers.BaseHandlers import BaseHandler
@@ -1206,9 +1205,9 @@ class AdminAjaxGameObjectDataHandler(BaseHandler):
             obj = game_objects[obj_name].by_uuid(uuid)
             if obj is not None:
                 self.set_header("Content-Type", "application/json; charset=UTF-8")
-                self.write(json_encode(obj.to_dict()))
+                self.write__json((obj.to_dict()))
             else:
-                self.write({"Error": "Invalid uuid."})
+                self.write__json({"Error": "Invalid uuid."})
         elif obj_name == "stats":
             flag = Flag.by_uuid(uuid)
             if flag is not None:
@@ -1246,9 +1245,9 @@ class AdminAjaxGameObjectDataHandler(BaseHandler):
                     "attempts": attempts,
                     "hints": hints,
                 }
-                self.write(obj)
+                self.write__json(obj)
             else:
-                self.write({"Error": "Invalid uuid."})
+                self.write__json({"Error": "Invalid uuid."})
         elif obj_name == "access":
             obj = game_objects["game_level"].by_uuid(uuid)
             if obj is not None:
@@ -1260,11 +1259,11 @@ class AdminAjaxGameObjectDataHandler(BaseHandler):
                     access.append(team.to_dict())
                 for team in all_teams:
                     available.append(team.to_dict())
-                self.write({"available": available, "access": access})
+                self.write__json({"available": available, "access": access})
             else:
-                self.write({"Error": "Invalid uuid."})
+                self.write__json({"Error": "Invalid uuid."})
         else:
-            self.write({"Error": "Invalid object type."})
+            self.write__json({"Error": "Invalid object type."})
         self.finish()
 
     def attempts(self, flag):
@@ -1329,9 +1328,9 @@ class AdminTestTokenHandler(BaseHandler):
             except Exception:
                 test = False
         else:
-            self.write({"Error": "Invalid flag type, cannot capture"})
+            self.write__json({"Error": "Invalid flag type, cannot capture"})
         if test is not None:
-            self.write({"Success": test})
+            self.write__json({"Success": test})
         else:
-            self.write({"Error": "Invalid submission."})
+            self.write__json({"Error": "Invalid submission."})
         self.finish()

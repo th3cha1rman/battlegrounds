@@ -73,6 +73,15 @@ class BaseHandler(RequestHandler):
     config = options  # backward compatibility
     RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify"
 
+    def write_json(self, data):
+        self.set_header("Content-Type", "application/json; charset=UTF-8")
+        self.write(
+            json.dumps(data)
+            .replace("<", "\\u003c")
+            .replace(">", "\\u003e")
+            .replace("&", "\\u0026")
+        )
+
     def initialize(self):
         """Setup sessions, etc"""
         self.add_content_policy("connect-src", self.config.origin)

@@ -84,7 +84,7 @@ elif [[ "${OSTYPE}" == "darwin14" ]]; then
   brew update
 
   echo "Brew install package..."
-  brew install python mysql memcached zlib
+  brew install python mysql memcached zlib pkg-config
 
 fi
 

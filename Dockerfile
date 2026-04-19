@@ -1,11 +1,13 @@
 ####################################
 #
 #  Dockerfile for Root the Box
-#  v0.1.4 - By Moloch, ElJeffe
+#  v0.1.4 - By Moloch, ElJeffe, Th3cha1rman
+#
+####################################
 
 FROM python:3.13-slim-bookworm
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y --no-install-recommends \
 build-essential pkg-config zlib1g-dev rustc \
 python3-pycurl sqlite3 libsqlite3-dev default-libmysqlclient-dev
 

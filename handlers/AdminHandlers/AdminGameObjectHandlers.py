@@ -33,6 +33,7 @@ import json
 import logging
 import re
 from builtins import str
+from tornado.escape import json_encode
 from tornado.options import options
 
 from handlers.BaseHandlers import BaseHandler
@@ -1204,7 +1205,8 @@ class AdminAjaxGameObjectDataHandler(BaseHandler):
         if obj_name in game_objects.keys():
             obj = game_objects[obj_name].by_uuid(uuid)
             if obj is not None:
-                self.write(obj.to_dict())
+                self.set_header("Content-Type", "application/json; charset=UTF-8")
+                self.write(json_encode(obj.to_dict()))
             else:
                 self.write({"Error": "Invalid uuid."})
         elif obj_name == "stats":
